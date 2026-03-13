@@ -1,0 +1,46 @@
+// Your custom skin
+// Skins
+$skins: () !default;
+$skins: map-merge((
+  "ui-darkblue": (
+    "skin-primary-color":      #334063,
+    "skin-navbar":             #334063,
+    "skin-footer-color":       #273458,
+    "skin-flat":               #273458,
+    "skin-accent":             #0033BC,
+    "skin-sidenav-item":       #334063,
+    "skin-sidenav-item-hover": #334063,
+    "skin-gradient-start":     #000000,
+    "skin-gradient-end":       #000000,
+    "skin-mask-slight":        #fff,
+    "skin-mask-light":         #fff,
+    "skin-mask-strong":        #fff,
+    "skin-sn-child":           #fff,
+    "skin-btn-primary":        #fff,
+    "skin-btn-secondary":      #fff,
+    "skin-btn-default":        #fff,
+    "skin-text":               #fff
+  )
+), $skins);
+$skins: map-merge((
+  "ui-light": (
+    "skin-primary-color":      #2b2b2b,
+    "skin-navbar":             #44474b,
+    "skin-footer-color":       #44474b,
+    "skin-accent":             #0033BC,
+    "skin-flat":               #a5a4a4,
+    "skin-sidenav-item":       rgba(0,   0,   0,   .4),
+    "skin-sidenav-item-hover": rgba(0,   0,   0,   .4),
+    "skin-gradient-start":     #383838,
+    "skin-gradient-end":       #a5a4a4,
+    "skin-mask-slight":        rgba(121, 121, 121, .5),
+    "skin-mask-light":         rgba(121, 121, 121, .65),
+    "skin-mask-strong":        rgba(121, 121, 121, .8),
+    "skin-sn-child":           #afdffc,
+    "skin-btn-primary":        #2073F2,
+    "skin-btn-secondary":      #DD00FC,
+    "skin-btn-default":        #2073F2,
+    "skin-text":               $white
+  )
+), $skins);
+
