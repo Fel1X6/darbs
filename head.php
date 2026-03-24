@@ -9,49 +9,10 @@ if (!isset($pageTitle)) $pageTitle = 'Budget System';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/css/mdb.min.css">
 
+
+<!-- js Plugins -->
+ <script src="Assets/Functionality/sweetalert2.min.js"></script>
+
 <style>
-  body {
-    background: #ffffff;
-  }
-
-  .ui-fullscreen-block {
-    min-height: calc(100vh - 30px);
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    background: #fff;
-  }
-
-  .ui-card {
-    background: #ffffff;
-    border: 1px solid #bf50e0;
-    border-radius: 12px;
-  }
-
-  .ui-card__title {
-    padding: 12px 16px;
-    color: #154ce6;
-    border-radius: 12px 12px 0 0;
-  }
-
-  .ui-card__title h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .left-sidebar__main {
-    min-height: 100vh;
-  }
-
-  .left-sidebar__container {
-    max-width: 100%;
-  }
-
-  .no-sidebar__content {
-    padding: 15px;
-  }
-
-  .navbar-brand {
-    font-weight: 600;
-  }
+ 
 </style>
