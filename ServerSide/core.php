@@ -87,4 +87,86 @@ function convert_before_json(&$item, $key)
     if($item==null) $item='';
 }
 
+function getUserByUsername($username){
+  $conn = ConnectDB();
+  if(!$conn) return null;
+
+  $username = mysqli_real_escape_string($conn, trim($username));
+
+  $q = mysqli_query($conn, "SELECT * FROM `budget_users` WHERE `username` = '".$username."'");
+
+  if(!$q){
+    CloseDB($conn);
+    return null;
+  }
+
+  $user = null;
+  if(mysqli_num_rows($q) > 0){
+    $user = mysqli_fetch_assoc($q);
+  }
+
+  CloseDB($conn);
+  return $user;
+}
+
+function loginUser($user){
+  if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+  }
+
+  session_regenerate_id(true);
+
+  $_SESSION['usr'] = $user['username'];
+  $_SESSION['usr_guid'] = $user['guid'];
+  $_SESSION['usr_name'] = $user['name'];
+  $_SESSION['usr_role'] = $user['role'];
+  $_SESSION['usr_company_guid'] = $user['company_guid'];
+
+  if(!isset($_SESSION['sys']) || $_SESSION['sys'] == ''){
+    $_SESSION['sys'] = 'FM';
+  }
+  if(!isset($_SESSION['sys_title']) || $_SESSION['sys_title'] == ''){
+    $_SESSION['sys_title'] = 'Budget System';
+  }
+}
+
+function logoutUser(){
+  if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+  }
+
+  $_SESSION = [];
+  session_unset();
+  session_destroy();
+}
+
+function isLoggedIn(){
+  return isset($_SESSION['usr']) && $_SESSION['usr'] != '';
+}
+
+function requireLogin($redirect = '../login.php'){
+  if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+  }
+
+  if(!isLoggedIn()){
+    header('Location: '.$redirect);
+    exit;
+  }
+}
+
+function isAdmin(){
+  return isset($_SESSION['usr_role']) && $_SESSION['usr_role'] === 'admin';
+}
+
+function checkLoginPassword($username, $password){
+  $user = getUserByUsername($username);
+
+  if(!$user) return false;
+  if($user['is_active'] != '1') return false;
+  if(!password_verify($password, $user['password_hash'])) return false;
+
+  return $user;
+}
+
  ?>
