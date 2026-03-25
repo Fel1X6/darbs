@@ -2,10 +2,13 @@
 <html translate="no">
 <head>
 
-   <?php include 'head.php'; ?>
+   <?php 
+   include 'head.php'; ?>
   <link rel="stylesheet" href="css/budget/seaman_budget.css">
 </head>
 <body>
+
+<?php include 'nav.php'; ?>
 
 <div class="budget-page container-fluid">
   <div class="row">
