@@ -1,0 +1,70 @@
+<?php
+session_start();
+if(!isset($_SESSION['usr'])){ echo "Session ended!"; exit;}
+
+include('cnf.php');
+include('core.php');
+
+$conn = ConnectDB();
+escape_deep($_POST, $conn);
+CloseDB($conn);
+
+if(isset($_POST['fName'])){
+}
+
+function loadRankList(){
+    $conn = ConnectDB();
+    $arr = [];
+    $arr['answer'] = 'ok';
+    $arr['ranks'] = [];
+
+    $q = mysqli_query($conn, "SELECT * FROM `budget_rank` WHERE `is_active` = 1 ORDER BY `department`, `rank_name`");
+
+    while($row = mysqli_fetch_assoc($q)){
+        $arr['ranks'][] = $row;
+    }
+
+    array_walk_recursive($arr, "convert_before_json");
+    echo json_encode($arr);
+    CloseDB($conn);
+}
+
+function loadVesselTypes(){
+    $conn = ConnectDB();
+    $arr = [];
+    $arr['answer'] = 'ok';
+    $arr['vessel_types'] = [];
+
+    if($_SESSION['usr_role'] == 'admin'){
+        $q = mysqli_query($conn, "SELECT DISTINCT `vessel_type` FROM `budget_vessel` WHERE `is_active` = 1 ORDER BY `vessel_type`");
+    } else {
+        $company_guid = $_SESSION['usr_company_guid'];
+
+        $q = mysqli_query($conn, "SELECT DISTINCT `vessel_type` FROM `budget_vessel` WHERE `is_active` = 1 AND `company_guid` = '".$company_guid."' ORDER BY `vessel_type`");
+    }
+
+    while($row = mysqli_fetch_assoc($q)){
+        $arr['vessel_types'][] = $row;
+    }
+
+    array_walk_recursive($arr, "convert_before_json");
+    echo json_encode($arr);
+    CloseDB($conn);
+}
+
+function loadCompanies(){
+    $conn = ConnectDB();
+    $arr = [];
+    $arr['answer'] = 'ok';
+    $arr['companies'] = [];
+
+    $q = mysqli_query($conn, "SELECT * FROM `budget_companies` WHERE `is_active` = 1 ORDER BY `company_name`");
+
+    while($row = mysqli_fetch_assoc($q)){
+        $arr['companies'][] = $row;
+    }
+
+    array_walk_recursive($arr, "convert_before_json");
+    echo json_encode($arr);
+    CloseDB($conn);
+}
