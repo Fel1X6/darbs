@@ -13,11 +13,6 @@ $navItems = [
         'label' => 'Budget planning',
         'icon' => 'fa-solid fa-calculator'
     ],
-    [
-        'file' => '#',
-        'label' => 'Reports',
-        'icon' => 'fa-solid fa-chart-column'
-    ]
 ];
 ?>
 
