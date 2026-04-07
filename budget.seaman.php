@@ -161,8 +161,15 @@
                     <option value="GBP">GBP</option>
                   </select>
                 </div>
+              <div class="col-md-6 mb-3">
+                <label class="budget-label">Display currency</label>
+                <select id="display_currency" class="form-control budget-select">
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="GBP">GBP</option>
+                </select>
               </div>
-
+              </div>
               <div class="totals-card">
                 <div class="info-row">
                   <span class="info-name">Total additions</span>
@@ -171,6 +178,15 @@
                 <div class="info-row">
                   <span class="info-name">Total deductions</span>
                   <span class="info-value" id="total-deductions">0.00</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-name">Exchange rate</span>
+                  <span class="info-value" id="exchange-rate">1 USD = 1 USD</span>
+                </div>
+
+                <div class="info-row">
+                  <span class="info-name">Rate date</span>
+                  <span class="info-value" id="exchange-rate-date">—</span>
                 </div>
               </div>
             </div>
@@ -221,7 +237,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="JS/budget.main.js"></script>
+<script src="JS/budget.main.js?v=3"></script>
 
 </body>
 </html>

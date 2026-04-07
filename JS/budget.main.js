@@ -1,5 +1,6 @@
-var vessels = [];
-var ranks = [];
+var exchangeRate = 1;
+var exchangeRateReady = true;
+var exchangeRateDate = '';
 
 (function($){
   $(document).ready(function(){
@@ -23,12 +24,20 @@ function initBudgetSeaman(){
   $('.calc-input').on('input', function(){
     calculateBudget();
   });
+  $('#currency').change(function(){
+  updateExchangeRate();
+  });
+
+  $('#display_currency').change(function(){
+  updateExchangeRate();
+  });
+
 }
 
 function initLoadBudget(){
   $.ajax({
     type: 'POST',
-    url: 'ServerSide/budgetJSON.php',
+    url: 'function_call.php?f=111',
     data: {'fName': 'loadVessels', 'mi': {}},
     dataType: 'json',
     cache: false,
@@ -48,7 +57,7 @@ function initLoadBudget(){
 }
 
 function loadRanks(){
-   mi = {};
+  mi = {};
   mi['vessel_guid'] = $('#budget-vessel').val();
 
   $('#budget-rank').html('<option value="">Select rank</option>').val('');
@@ -70,7 +79,7 @@ function loadRanks(){
 
   $.ajax({
     type: 'POST',
-    url: 'ServerSide/budgetJSON.php',
+    url: 'function_call.php?f=111',
     data: {'fName': 'loadRanks', 'mi': mi},
     dataType: 'json',
     cache: false,
@@ -100,7 +109,7 @@ function loadRankData(){
 
   $.ajax({
     type: 'POST',
-    url: 'ServerSide/budgetJSON.php',
+    url: 'function_call.php?f=111',
     data: {'fName': 'loadRankData', 'mi': mi},
     dataType: 'json',
     cache: false,
@@ -122,9 +131,9 @@ function loadRankData(){
         $('#other_additions').val(rank.other_additions);
         $('#deductions').val(rank.deductions);
         $('#currency').val(rank.currency);
-
         $('#selected-rank-label').text(rank.rank_name);
-        calculateBudget();
+        $('#display_currency').val(rank.currency);
+        updateExchangeRate();
       }
     }
   });
@@ -149,9 +158,16 @@ function calculateBudget(){
   premium = num('#premium');
   overtime = num('#overtime');
   otherAdditions = num('#other_additions');
-
   deductions = num('#deductions');
-  currency = $('#currency').val();
+
+  baseCurrency = $('#currency').val();
+  displayCurrency = $('#display_currency').val();
+  if(baseCurrency == ''){
+    baseCurrency = 'USD';
+  }
+  if(displayCurrency == ''){
+    displayCurrency = baseCurrency;
+  }
 
   totalWage = baseSalary + (dailyRate * workingDays) + leavePay + employerCost;
   grossWage = totalWage + bonus + premium + overtime + otherAdditions - deductions;
@@ -161,14 +177,27 @@ function calculateBudget(){
   $('#total-additions').text((bonus + premium + overtime + otherAdditions).toFixed(2));
   $('#total-deductions').text(deductions.toFixed(2));
 
-  $('#preview-monthly').text(grossWage.toFixed(2) + ' ' + currency);
-  $('#preview-contract').text(contractTotal.toFixed(2) + ' ' + currency);
-  $('#preview-crew').text(crewTotal.toFixed(2) + ' ' + currency);
-  $('#preview-currency').text(currency);
+  if(exchangeRateReady){
+    previewMonthly = grossWage * exchangeRate;
+    previewContract = contractTotal * exchangeRate;
+    previewCrew = crewTotal * exchangeRate;
+
+    $('#preview-monthly').text(previewMonthly.toFixed(2) + ' ' + displayCurrency);
+    $('#preview-contract').text(previewContract.toFixed(2) + ' ' + displayCurrency);
+    $('#preview-crew').text(previewCrew.toFixed(2) + '' + displayCurrency);
+    $('#preview-currency').text(displayCurrency);
+  } else {
+    $('#preview-monthly').text('—');
+    $('#preview-contract').text('—');
+    $('#preview-crew').text('—');
+    $('#preview-currency').text(displayCurrency);
+  }
 
   $('#rank-required-preview').text(required);
   $('#rank-onboard-preview').text(onboard);
   $('#rank-contract-preview').text(months);
+
+  renderExchangeInfo();
 }
 
 
@@ -198,6 +227,105 @@ function resetBudgetForm(){
   $('#rank-required-preview').text('0');
   $('#rank-onboard-preview').text($('#already_on_board').val());
   $('#rank-contract-preview').text('0');
+  $('#display_currency').val('USD');
+  exchangeRate = 1;
+  exchangeRateReady = true;
+  exchangeRateDate = '';
+  renderExchangeInfo();
 
   calculateBudget();
+}
+
+
+function updateExchangeRate(){
+  baseCurrency = $('#currency').val();
+  displayCurrency = $('#display_currency').val();
+
+  if(baseCurrency == ''){
+    baseCurrency = 'USD';
+    $('#currency').val('USD');
+  }
+
+  if(displayCurrency == ''){
+    displayCurrency = baseCurrency;
+    $('#display_currency').val(baseCurrency);
+  }
+
+  if(baseCurrency == displayCurrency){
+    exchangeRate = 1;
+    exchangeRateReady = true;
+    exchangeRateDate = '';
+    calculateBudget();
+    return;
+  }
+
+  $.ajax({
+    type: 'POST',
+    url: 'function_call.php?f=111',
+    data: {
+      'fName': 'loadExchangeRate',
+      'mi': {
+        'base_currency': baseCurrency,
+        'quote_currency': displayCurrency
+      }
+    },
+    dataType: 'json',
+    cache: false,
+    error: function(error){
+      exchangeRate = 1;
+      exchangeRateReady = false;
+      exchangeRateDate = '';
+      calculateBudget();
+
+      if(!JSON.stringify(error).includes('Session ended!')){
+        alert(JSON.stringify(error));
+      } else {
+        CallPulse();
+      }
+    },
+    success: function(d){
+      if(d.answer == 'ok'){
+        exchangeRate = parseFloat(d.rate);
+        if(!exchangeRate){
+          exchangeRate = 1;
+        }
+
+        exchangeRateReady = true;
+        exchangeRateDate = d.rate_date;
+      } else {
+        exchangeRate = 1;
+        exchangeRateReady = false;
+        exchangeRateDate = '';
+      }
+
+      calculateBudget();
+    }
+  });
+}
+
+function renderExchangeInfo(){
+  baseCurrency = $('#currency').val();
+  displayCurrency = $('#display_currency').val();
+
+  if(baseCurrency == ''){
+    baseCurrency = 'USD';
+  }
+
+  if(displayCurrency == ''){
+    displayCurrency = baseCurrency;
+  }
+
+  if(baseCurrency == displayCurrency){
+    $('#exchange-rate').text('1 ' + baseCurrency + ' = 1 ' + displayCurrency);
+    $('#exchange-rate-date').text('Same currency');
+    return;
+  }
+
+  if(exchangeRateReady){
+    $('#exchange-rate').text('1 ' + baseCurrency + ' = ' + parseFloat(exchangeRate).toFixed(4) + ' ' + displayCurrency);
+    $('#exchange-rate-date').text(exchangeRateDate);
+  } else {
+    $('#exchange-rate').text('Rate unavailable');
+    $('#exchange-rate-date').text('—');
+  }
 }
