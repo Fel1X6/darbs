@@ -9,8 +9,8 @@ $navItems = [
         'icon' => 'fa-solid fa-people-group'
     ],
     [
-        'file' => '#',
-        'label' => 'Budget planning',
+        'file' => 'budget.settings.php',
+        'label' => 'Budget settings',
         'icon' => 'fa-solid fa-calculator'
     ],
 ];

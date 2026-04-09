@@ -56,7 +56,7 @@
           </div>
 
           <div class="sidebar-actions">
-            <button class="btn budget-btn primary-btn" onclick="calculateBudget()">Calculate</button>
+            
             <button class="btn budget-btn success-btn">Save</button>
             <button class="btn budget-btn light-btn" onclick="resetBudgetForm()">Reset</button>
           </div>
@@ -161,6 +161,7 @@
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
                   </select>
                 </div>
               <div class="col-md-6 mb-3">
@@ -169,6 +170,7 @@
                   <option value="USD">USD</option>
                   <option value="EUR">EUR</option>
                   <option value="GBP">GBP</option>
+                  <option value="JPY">JPY</option>
                 </select>
               </div>
               </div>
@@ -239,7 +241,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="JS/budget.main.js?v=3"></script>
+<script src="JS/budget.main.js?v=2"></script>
 
 </body>
 </html>
