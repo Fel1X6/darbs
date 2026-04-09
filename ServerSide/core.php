@@ -156,7 +156,7 @@ function requireLogin($redirect = '../login.php'){
 }
 
 function isAdmin(){
-  return isset($_SESSION['usr_role']) && $_SESSION['usr_role'] === 'admin';
+  return isset($_SESSION['usr_role']) && $_SESSION['usr_role'] == 'admin';
 }
 
 function checkLoginPassword($username, $password){

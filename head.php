@@ -1,6 +1,12 @@
 <?php
+require_once 'ServerSide/cnf.php';
+require_once 'ServerSide/core.php';
+
 session_start();
-if (!isset($pageTitle)) $pageTitle = 'Budget System';
+if(basename($_SERVER['PHP_SELF']) != 'login.php'){
+  requireLogin('/darbs/login.php');
+}
+if(!isset($pageTitle)) $pageTitle = 'Budget System';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

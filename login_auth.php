@@ -13,7 +13,7 @@ if($username == '' || $password == ''){
 
 $user = checkLoginPassword($username, $password);
 
-if($user === false){
+if($user == false){
   header('Location: login.php?error=1');
   exit;
 }
