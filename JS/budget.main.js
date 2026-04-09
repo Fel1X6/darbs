@@ -236,6 +236,31 @@ function resetBudgetForm(){
   calculateBudget();
 }
 
+function resetBudget(){
+  Swal.fire({
+    title: 'Reset form?',
+    text: 'All current values will be returned to default.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, reset',
+    cancelButtonText: 'Cancel',
+    reverseButtons: true
+  }).then((result) => {
+    if(result.isConfirmed){
+      resetBudgetForm();
+
+      Swal.fire({
+        title: 'Success',
+        text: 'The form has been restored.',
+        icon: 'success',
+        timer: 1400,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+
 
 function updateExchangeRate(){
   baseCurrency = $('#currency').val();

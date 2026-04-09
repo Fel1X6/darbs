@@ -58,7 +58,7 @@
           <div class="sidebar-actions">
             
             <button class="btn budget-btn success-btn">Save</button>
-            <button class="btn budget-btn light-btn" onclick="resetBudgetForm()">Reset</button>
+            <button class="btn budget-btn light-btn" onclick="resetBudget()">Reset</button>
           </div>
         </div>
       </div>

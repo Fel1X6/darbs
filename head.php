@@ -16,6 +16,7 @@ if(!isset($pageTitle)) $pageTitle = 'Budget System';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.20.0/css/mdb.min.css">
 <link rel="stylesheet" href="css/nav.css?v=<?= time(); ?>">
+<link rel='stylesheet' href="Design/sweetalert2.min.css">
 
 
 <!-- js Plugins -->
