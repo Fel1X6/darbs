@@ -354,3 +354,75 @@ function renderExchangeInfo(){
     $('#exchange-rate-date').text('—');
   }
 }
+
+
+function exportBudgetExcel(){
+    mi = {};
+
+    mi.vessel_guid = $('#budget-vessel').val();
+    mi.vessel_name = $('#budget-vessel option:selected').text();
+
+    mi.rank_id = $('#budget-rank').val();
+    mi.rank_name = $('#budget-rank option:selected').text();
+
+    mi.required_on_board = $('#required_on_board').val();
+    mi.already_on_board = $('#already_on_board').val();
+    mi.contract_months = $('#contract_months').val();
+
+    mi.base_salary = $('#base_salary').val();
+    mi.daily_rate = $('#daily_rate').val();
+    mi.working_days = $('#working_days').val();
+    mi.leave_pay = $('#leave_pay').val();
+    mi.employer_cost = $('#employer_cost').val();
+
+    mi.bonus = $('#bonus').val();
+    mi.premium = $('#premium').val();
+    mi.overtime = $('#overtime').val();
+    mi.other_additions = $('#other_additions').val();
+    mi.deductions = $('#deductions').val();
+
+    mi.currency = $('#currency').val();
+    mi.display_currency = $('#display_currency').val();
+
+    mi.total_additions = $('#total-additions').text();
+    mi.total_deductions = $('#total-deductions').text();
+    mi.exchange_rate_text = $('#exchange-rate').text();
+    mi.rate_date = $('#exchange-rate-date').text();
+
+    mi.monthly_total = $('#preview-monthly').text();
+    mi.contract_total = $('#preview-contract').text();
+    mi.crew_total = $('#preview-crew').text();
+    mi.preview_currency = $('#preview-currency').text();
+
+    $.ajax({
+        type: 'POST',
+        url: 'ServerSide/budgetJSON.php',
+        dataType: 'json',
+        data: {
+            'fName': 'prepareExcel',
+            'mi': mi
+        },
+        cache: false,
+        error: function(error){
+            if(!JSON.stringify(error).includes('Session ended!')) {
+                alert(JSON.stringify(error));
+            } else {
+                CallPulse();
+            }
+        },/*
+        beforeSend: function(){
+            ShowLoader();
+        },
+        complete: function(){
+            HideLoader();
+        },
+        */
+        success: function(d){
+            if(d.answer == 'ok'){
+                window.location = 'excel/budget_export.php';
+            } else {
+                alert('Export error');
+            }
+        }
+    });
+}

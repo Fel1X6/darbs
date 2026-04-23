@@ -14,6 +14,7 @@ if(isset($_POST['fName'])){
     if($_POST['fName'] === 'loadRanks') loadRanks($_POST['mi'] ?? []);
     if($_POST['fName'] === 'loadRankData') loadRankData($_POST['mi'] ?? []);
      if($_POST['fName'] === 'loadExchangeRate') loadExchangeRate($_POST['mi']);
+     if($_POST['fName'] == 'prepareExcel') prepareExcel($_POST['mi']);
 }
 
 function loadVessels(){
@@ -227,6 +228,16 @@ function loadExchangeRate($mi){
             }
         }
     }
+
+    array_walk_recursive($arr, "convert_before_json");
+    echo json_encode($arr);
+}
+
+function prepareExcel($mi){
+    $arr = [];
+    $arr['answer'] = 'ok';
+
+    $_SESSION['budget_excel'] = $mi;
 
     array_walk_recursive($arr, "convert_before_json");
     echo json_encode($arr);

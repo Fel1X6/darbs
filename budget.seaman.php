@@ -57,7 +57,8 @@
 
           <div class="sidebar-actions">
             
-            <button class="btn budget-btn success-btn">Save</button>
+            <button class="btn budget-btn success-btn" onclick="exportBudgetExcel()">Export Excel
+            </button>
             <button class="btn budget-btn light-btn" onclick="resetBudget()">Reset</button>
           </div>
         </div>

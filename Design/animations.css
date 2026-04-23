@@ -1,0 +1,80 @@
+
+:root{
+  --request-selected-color1:'';
+  --request-selected-color2:'';
+}
+
+.animate-two-color-bg{
+     background: linear-gradient(270deg, var(--request-selected-color1), var(--request-selected-color2));
+     background-size: 800% 800%;
+
+     -webkit-animation: TwoColorBG 2s ease infinite;
+     -moz-animation: TwoColorBG 2s ease infinite;
+     animation: TwoColorBG 2s ease infinite;
+}
+
+.animate-two-color-text{
+
+     -webkit-animation: TwoColorText 1s ease infinite;
+     -moz-animation: TwoColorText 1s ease infinite;
+     animation: TwoColorText 1s ease infinite;
+}
+
+
+
+
+@-webkit-keyframes TwoColorBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes TwoColorBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes TwoColorBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes TwoColorBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+
+p{
+    -webkit-animation: color-change 1s infinite;
+    -moz-animation: color-change 1s infinite;
+    -o-animation: color-change 1s infinite;
+    -ms-animation: color-change 1s infinite;
+    animation: color-change 1s infinite;
+}
+
+@-webkit-keyframes TwoColorText {
+    0% { color: var(--request-selected-color1); }
+    50% { color: var(--request-selected-color2); }
+    100% { color: var(--request-selected-color1); }
+}
+@-moz-keyframes TwoColorText {
+    0% { color: var(--request-selected-color1); }
+    50% { color: var(--request-selected-color2); }
+    100% { color: var(--request-selected-color1); }
+}
+@-ms-keyframes TwoColorText {
+    0% { color: var(--request-selected-color1); }
+    50% { color: var(--request-selected-color2); }
+    100% { color: var(--request-selected-color1); }
+}
+@-o-keyframes TwoColorText {
+    0% { color: var(--request-selected-color1); }
+    50% { color: var(--request-selected-color2); }
+    100% { color: var(--request-selected-color1); }
+}
+@keyframes TwoColorText {
+    0% { color: var(--request-selected-color1); }
+    50% { color: var(--request-selected-color2); }
+    100% { color: var(--request-selected-color1); }
+}
